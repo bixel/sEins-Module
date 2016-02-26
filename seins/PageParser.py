@@ -22,7 +22,7 @@ class PageParser(object):
     def __init__(self, dep, arr, day=None, departure_time=None):
         fetcher = DBHtmlFetcher()
         self._html = fetcher.get_efa_html(dep, arr, day, departure_time)
-        self._soup = BeautifulSoup(self._html)
+        self._soup = BeautifulSoup(self._html, "html.parser")
 
     @property
     def connections(self):
@@ -43,12 +43,12 @@ class DBPageParser(PageParser):
     @classmethod
     def from_html(cls, html):
         cls._html = html
-        cls._soup = BeautifulSoup(cls._html)
+        cls._soup = BeautifulSoup(cls._html, "html.parser")
 
     @classmethod
     def from_html_fetcher(cls, fetcher, dep, arr, day=None, departure_time=None):
         cls._html = fetcher.get_efa_html(dep, arr, day, departure_time)
-        cls._soup = BeautifulSoup(cls._html)
+        cls._soup = BeautifulSoup(cls._html, "html.parser")
 
     #returns a tuple of the form (departuretime, arrivaltime, delay, traintype)
     @property
